@@ -1,0 +1,18 @@
+# AML v2 job (Commercial Azure)
+command: >-
+  python run_docai.py
+environment:
+  conda_file: conda.yaml
+  image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04
+code: .
+compute: azureml:<your-compute>
+inputs:
+  docs:
+    type: uri_folder
+    path: azureml://datastores/<datastore>/paths/<container>/<prefix>
+environment_variables:
+  INPUT_DIR: ${{inputs.docs}}
+  MODEL_ID: prebuilt-invoice
+  OUT_DIR: ./out
+  DOCAI_ENDPOINT: https://<your-di>.cognitiveservices.azure.com/
+  DOCAI_KEY: <supply at submit time or via secrets>
